@@ -1,0 +1,244 @@
+<html>
+  <head>
+    <title>click game</title>
+
+    <style type="text/css">
+      #shape {
+        width: 100px;
+        height: 100px;
+        top: 100px;
+        left: 100px;
+        position: relative;
+        background-color: green;
+        display: none;
+        cursor: pointer;
+        z-index: 1;
+      }
+      #center {
+        border: 2px solid white;
+        width: 300px;
+        height: auto;
+        top: 100px;
+        left: 100px;
+        position: fixed;
+        background-color: green;
+        margin-left: 500px;
+        margin-top: 200px;
+        text-align: center;
+      }
+      #out {
+        width: 300px;
+        height: auto;
+        top: 100px;
+        left: 100px;
+        position: fixed;
+        background-color: green;
+        margin-left: 500px;
+        margin-top: 200px;
+        display: none;
+        text-align: center;
+      }
+      #score {
+        width: 300px;
+        height: 20px;
+        top: 500px;
+        left: 100px;
+        position: fixed;
+        background-color: yellow;
+        margin-left: 500px;
+        margin-top: 200px;
+        text-align: center;
+        display: none;
+        border: solid;
+      }
+      #timeDisplay {
+        width: 300px;
+        height: 20px;
+        left: 100px;
+        top: -180px;
+        position: fixed;
+        background-color: yellow;
+        margin-left: 500px;
+        margin-top: 200px;
+        text-align: center;
+        display: none;
+        z-index: 2;
+        border: solid;
+      }
+      body {
+        background-image: url("Kyrie-Irving-4-scaled-e158172859065.jpg");
+        background-position: center center;
+        background-size: cover;
+      }
+      .btn1 {
+        padding: 5px 40px;
+        background-color: red;
+        border: 2px solid white;
+        cursor: pointer;
+      }
+      .btn1 .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: 110%;
+        left: 50%;
+        margin-left: -60px;
+      }
+      .btn1 .tooltiptext::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+      }
+
+      .btn1:hover .tooltiptext {
+        visibility: visible;
+      }
+      .btn {
+        padding: 5px 40px;
+        background-color: red;
+        border: 2px solid white;
+        cursor: pointer;
+      }
+      .btn span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .btn span:after {
+        content: "\00bb";
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+
+      .btn:hover span {
+        padding-right: 25px;
+      }
+
+      .btn:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="timeDisplay">you get <span id="time"></span></div>
+    <div id="center">
+      <h1>select leval you want?</h1>
+      <button id="select1" class="btn" style="vertical-align: middle">
+        <span>hard leval</span>
+      </button>
+      <br />
+      <button id="select2" class="btn" style="vertical-align: middle">
+        <span>easy leval</span>
+      </button>
+    </div>
+
+    <div id="shape"></div>
+    <div id="score">number of click:<span id="count"></span></div>
+    <div id="out">
+      you are out<br />
+      your score is <span id="count1"></span>
+      <div>
+        <button class="btn1" onclick="showStatPage()">
+          click here <span class="tooltiptext">Go to selection page</span>
+        </button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var start = 0;
+      var rate;
+      var count = 0;
+      function showStatPage() {
+        document.getElementById("out").style.display = "none";
+        document.getElementById("center").style.display = "block";
+      }
+      function aboutShape() {
+        var height = Math.random() * 350 + 30;
+        var top = Math.random() * 100;
+        var left = Math.random() * 950;
+        if (Math.random() > 0.5) {
+          document.getElementById("shape").style.borderRadius = "50%";
+        } else {
+          document.getElementById("shape").style.borderRadius = "0%";
+        }
+        document.getElementById("shape").style.height = height + "px";
+        document.getElementById("shape").style.width = height + "px";
+        document.getElementById("shape").style.top = top + "px";
+        document.getElementById("shape").style.left = left + "px";
+        document.getElementById("shape").style.background = getRandomColor();
+        document.getElementById("shape").style.display = "block";
+      }
+
+      function shapeAppearDelay() {
+        setTimeout(aboutShape, Math.random() * rate);
+        start = new Date().getTime();
+      }
+      function getRandomColor() {
+        var letter = "123456789ABCDEF";
+        var color = "#";
+        while (true) {
+          for (var i = 0; i < 6; i++) {
+            color += letter[Math.floor(Math.random() * 16)];
+          }
+          if (color != "#FFFFFF") {
+            break;
+          }
+        }
+        return color;
+      }
+      document.getElementById("select1").onclick = function () {
+        rate = 1000;
+        start = new Date().getTime();
+        document.getElementById("center").style.display = "none";
+        document.getElementById("shape").style.display = "block";
+        document.getElementById("score").style.display = "block";
+        document.getElementById("count").innerHTML = count + "";
+        document.getElementById("timeDisplay").style.display = "block";
+        document.getElementById("time").innerHTML = "-----";
+      };
+      document.getElementById("select2").onclick = function () {
+        rate = 2000;
+        start = new Date().getTime();
+        document.getElementById("center").style.display = "none";
+        document.getElementById("shape").style.display = "block";
+        document.getElementById("score").style.display = "block";
+        document.getElementById("count").innerHTML = count + "";
+        document.getElementById("timeDisplay").style.display = "block";
+        document.getElementById("time").innerHTML = "-----";
+      };
+      document.getElementById("shape").onclick = function () {
+        document.getElementById("shape").style.display = "none";
+        var end = new Date().getTime();
+        var time = (end - start) / 1000;
+        document.getElementById("time").innerHTML = time + "s";
+        if ((rate == 1000 && time > 1.5) || (rate == 2000 && time > 2)) {
+          document.getElementById("score").style.display = "none";
+          document.getElementById("timeDisplay").style.display = "none";
+          document.getElementById("out").style.display = "block";
+          document.getElementById("count1").innerHTML = count + "<br>" + time;
+        } else {
+          count++;
+          document.getElementById("count").innerHTML = count + "";
+          shapeAppearDelay();
+        }
+      };
+    </script>
+  </body>
+</html>
